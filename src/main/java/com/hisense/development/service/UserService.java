@@ -11,7 +11,7 @@ public interface UserService {
 
     public User create(User user);
 //
-//    public boolean delete(String userId);
+//    public boolean deleteUser(String userId);
 //
 //    public boolean Update(User user);
 //

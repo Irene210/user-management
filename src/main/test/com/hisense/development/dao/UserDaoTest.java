@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 2016/12/8 0008.
  */
@@ -34,12 +32,12 @@ public class UserDaoTest extends TestCase{
         assertEquals(size+1,userDao.findAll().size());
     }
 
-//    @Test
-//    public void delete() {
-//        int size = userDao.delete();
-//        User user = new User();
-//        int user1 = userDao.createUser(user);
-//        assertEquals(size+1,userDao.findAll().size());
-//    }
+    @Test
+    public void delete() {
+        boolean b = userDao.deleteUser();
+        User user = new User();
+        int user1 = userDao.createUser(user);
+        assertTrue(b);
+    }
 
 }

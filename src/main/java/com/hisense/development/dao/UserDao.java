@@ -16,6 +16,7 @@ public interface UserDao {
 
     public List<User> findAll();
     public int deleteAll();
+    public boolean deleteUser();
 
 
 }

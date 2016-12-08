@@ -17,4 +17,8 @@
     <delete id="deleteAll">
         DELETE from SYS_USERS
     </delete>
+
+    <delete id="deleteUser">
+        DELETE from SYS_USERSn WHERE ID=#{id}
+    </delete>
 </mapper>
