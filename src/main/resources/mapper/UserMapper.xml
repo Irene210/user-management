@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hisense.development.dao.UserDao">
+    <select id="findById" resultType="com.hisense.development.entity.User">
+   SELECT * FROM SYS_USERS WHERE ID=#{id}
+  </select>
+    <insert id="createUser" parameterType="com.hisense.development.entity.User"
+            keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
+       INSERT INTO SYS_USERS (NAME, SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,displayNum )
+        VALUES (#{name}, #{sex}, #{telephone}, #{department.getId()},#{username},
+        #{password},#{salt},#{locked},#{displayNum})
+    </insert>
+    <select id="findAll" resultType="com.hisense.development.entity.User">
+        SELECT * FROM SYS_USERS
+    </select>
+
+    <delete id="deleteAll">
+        DELETE from SYS_USERS
+    </delete>
+</mapper>

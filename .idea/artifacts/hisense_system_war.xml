@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hisense-system:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="hisense-system.war">
+      <element id="artifact" artifact-name="hisense-system:war exploded" />
+    </root>
+  </artifact>
+</component>
