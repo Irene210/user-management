@@ -28,8 +28,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hisense-system" target="1.5" />
-      <module name="user-management-web-springmvc" target="1.5" />
+      <module name="hisense-system" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

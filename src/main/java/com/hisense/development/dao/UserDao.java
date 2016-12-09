@@ -12,11 +12,17 @@ import java.util.List;
  */
 public interface UserDao {
 
-    public int createUser(User user);
+    public boolean createUser(User user) throws Exception;
 
-    public List<User> findAll();
-    public int deleteAll();
-    public boolean deleteUser();
+    public List<User> findAll() throws Exception ;
+
+    public User findByUsername(String name) throws Exception ;
+
+    public boolean deleteAll() throws Exception ;
+
+    public boolean deleteUser(List<String> usernames) throws Exception ;
+
+    public boolean updateUser(User user) throws Exception ;
 
 
 }

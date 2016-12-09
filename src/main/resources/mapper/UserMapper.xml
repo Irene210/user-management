@@ -6,7 +6,7 @@
   </select>
     <insert id="createUser" parameterType="com.hisense.development.entity.User"
             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
-       INSERT INTO SYS_USERS (NAME, SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,displayNum )
+       INSERT INTO SYS_USERS (NAME, SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,DISPLAYNUM )
         VALUES (#{name}, #{sex}, #{telephone}, #{department.getId()},#{username},
         #{password},#{salt},#{locked},#{displayNum})
     </insert>
@@ -14,11 +14,28 @@
         SELECT * FROM SYS_USERS
     </select>
 
+    <select id="findByUsername" resultType="com.hisense.development.entity.User">
+        SELECT * FROM SYS_USERS WHERE USERNAME=#{username}
+    </select>
+
     <delete id="deleteAll">
         DELETE from SYS_USERS
     </delete>
 
     <delete id="deleteUser">
-        DELETE from SYS_USERSn WHERE ID=#{id}
+        DELETE FROM SYS_USERS WHERE USERNAME in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
+
+    <update id="updateUser" parameterType="com.hisense.development.entity.User">
+        update SYS_USERS
+        set NAME = #{name}, SEX = #{sex},
+        TELEPHONE =#{telephone},DEPARTMENTID =#{department.getId()},
+        USERNAME =#{username},PASSWORD =# {password},
+        SALT =#{salt},LOCKED=#{locked},
+        DISPLAYNUM=#{displayNum}
+        where USERNAME = #{username}
+    </update>
 </mapper>
