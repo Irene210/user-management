@@ -1,6 +1,7 @@
 package com.hisense.development.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2016/12/7 0007.
@@ -8,15 +9,31 @@ import java.io.Serializable;
 public class Role implements Serializable {
     private Long id;
     private String name;
-    private String description; //角色描述,UI界面显示使用
     private Boolean available = Boolean.FALSE;
+    private User createUser;
+    private Date createDate;
+
+    public User getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(User createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
     public Role() {
     }
 
-    public Role(String name, String description, Boolean available) {
+    public Role(String name, Boolean available) {
         this.name = name;
-        this.description = description;
         this.available = available;
     }
 
@@ -36,14 +53,6 @@ public class Role implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Boolean getAvailable() {
         return available;
     }
@@ -53,28 +62,12 @@ public class Role implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Role role = (Role) o;
-
-        if (id != null ? !id.equals(role.id) : role.id != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", create='" + createUser.getUsername() + '\'' +
+                ", createDate='" + createDate + '\'' +
                 ", available=" + available +
                 '}';
     }

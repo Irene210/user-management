@@ -26,7 +26,7 @@ public class UserDaoTest extends TestCase {
     @Before
     public void beforeTest() throws Exception{
          irene = new User("irene","123");
-        userDao.createUser(irene);
+        userDao.create(irene);
     }
     @After
     public void afterTest() throws Exception{
@@ -36,24 +36,24 @@ public class UserDaoTest extends TestCase {
     @Test
     public void testCreateUser()throws Exception {
         int size = userDao.findAll().size();
-        userDao.createUser(new User("demo","123"));
+        userDao.create(new User("demo","123"));
         assertEquals(size+1,userDao.findAll().size());
     }
 
     @Test
     public void testDelete()throws Exception {
         User demo = new User("demo", "123");
-        userDao.createUser(demo);
+        userDao.create(demo);
         List<String> list = new LinkedList<String>();
         list.add(irene.getUsername());
         list.add(demo.getUsername());
-        boolean b = userDao.deleteUser(list);
+        boolean b = userDao.delete(list);
         assertTrue(b);
     }
 
     @Test
     public void testFindByName() throws Exception{
-        User user = userDao.findByUsername(irene.getUsername());
+        User user = userDao.find(irene.getUsername());
         assertEquals(irene.getUsername(),user.getUsername());
         assertEquals(irene.getPassword(),user.getPassword());
         assertTrue(user.getId()>=0);
@@ -62,7 +62,7 @@ public class UserDaoTest extends TestCase {
     @Test
     public void testFindAll() throws Exception{
         User demo = new User("demo", "123");
-        userDao.createUser(demo);
+        userDao.create(demo);
         assertTrue(userDao.findAll().size()==2);
         assertTrue(userDao.findAll().toString().contains(demo.toString()));
         assertTrue(userDao.findAll().toString().contains(irene.toString()));
@@ -70,11 +70,11 @@ public class UserDaoTest extends TestCase {
 
     @Test
     public void testUpdateUser()throws Exception {
-        User irene = userDao.findByUsername("irene");
+        User irene = userDao.find("irene");
         irene.setSex("woman");
         irene.setDisplayNum(1);
-        userDao.updateUser(irene);
-        User user = userDao.findByUsername("irene");
+        userDao.update(irene);
+        User user = userDao.find("irene");
         assertTrue(user.getSex().equals("woman"));
         assertTrue(user.getDisplayNum()==1);
     }

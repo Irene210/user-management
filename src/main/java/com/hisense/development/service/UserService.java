@@ -18,7 +18,7 @@ public interface UserService {
 
     public boolean deleteAll();
 
-//    public void changePassword(Long userId, String newPassword);
+    public boolean changePassword(String username, String newPassword);
 //
 //    public void correlationRoles(Long userId, Long... roleIds);
 //

@@ -4,7 +4,7 @@
     <select id="findById" resultType="com.hisense.development.entity.User">
    SELECT * FROM SYS_USERS WHERE ID=#{id}
   </select>
-    <insert id="createUser" parameterType="com.hisense.development.entity.User"
+    <insert id="create" parameterType="com.hisense.development.entity.User"
             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
        INSERT INTO SYS_USERS (NAME, SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,DISPLAYNUM )
         VALUES (#{name}, #{sex}, #{telephone}, #{department.getId()},#{username},
@@ -14,7 +14,7 @@
         SELECT * FROM SYS_USERS
     </select>
 
-    <select id="findByUsername" resultType="com.hisense.development.entity.User">
+    <select id="find" resultType="com.hisense.development.entity.User">
         SELECT * FROM SYS_USERS WHERE USERNAME=#{username}
     </select>
 
@@ -22,14 +22,14 @@
         DELETE from SYS_USERS
     </delete>
 
-    <delete id="deleteUser">
+    <delete id="delete">
         DELETE FROM SYS_USERS WHERE USERNAME in
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>
     </delete>
 
-    <update id="updateUser" parameterType="com.hisense.development.entity.User">
+    <update id="update" parameterType="com.hisense.development.entity.User">
         update SYS_USERS
         set NAME = #{name}, SEX = #{sex},
         TELEPHONE =#{telephone},DEPARTMENTID =#{department.getId()},

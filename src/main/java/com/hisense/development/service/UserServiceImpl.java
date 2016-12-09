@@ -16,12 +16,16 @@ import javaslang.collection.List;
 public class UserServiceImpl implements Loggable, UserService {
     @Autowired
     UserDao userDao;
+//    @Autowired
+//    private PasswordHelper passwordHelper;
 
     public boolean create(User user) {
-        if (user.getUsername()!=null) {
+        if (user.getUsername() != null) {
             try {
-                if(userDao.findByUsername(user.getUsername())==null)
-                return userDao.createUser(user);
+                if (userDao.find(user.getUsername()) == null) {
+//                    passwordHelper.encryptPassword(user);
+                    return userDao.create(user);
+                }
             } catch (Exception e) {
                 logger().info("Creating user failure");
             }
@@ -31,7 +35,7 @@ public class UserServiceImpl implements Loggable, UserService {
 
     public boolean deleteAll() {
         try {
-           return userDao.deleteAll();
+            return userDao.deleteAll();
         } catch (Exception e) {
             logger().info("Deleting all users failure");
         }
@@ -40,9 +44,8 @@ public class UserServiceImpl implements Loggable, UserService {
 
     public boolean delete(List<String> usernames) {
         try {
-            Boolean all = usernames.forAll(username -> exists(username));
-            if (all){
-                return userDao.deleteUser(usernames.toJavaList());
+            if (usernames.forAll(username -> exists(username))) {
+                return userDao.delete(usernames.toJavaList());
             }
         } catch (Exception e) {
             logger().info("Deleting  users failure");
@@ -52,8 +55,8 @@ public class UserServiceImpl implements Loggable, UserService {
 
     public boolean update(User user) {
         try {
-            if (exists(user.getUsername())){
-                return userDao.updateUser(user);
+            if (exists(user.getUsername())) {
+                return userDao.update(user);
             }
         } catch (Exception e) {
             logger().info("Updating  users failure");
@@ -61,10 +64,25 @@ public class UserServiceImpl implements Loggable, UserService {
         return false;
     }
 
+    @Override
+    public boolean changePassword(String username, String newPassword) {
+        try {
+            if (exists(username)) {
+                User user = findByUsername(username).get();
+                user.setPassword(newPassword);
+//                passwordHelper.encryptPassword(user);
+                return userDao.update(user);
+            }
+        } catch (Exception e) {
+            logger().info("Changing password failure");
+        }
+        return false;
+    }
+
     public Option<User> findByUsername(String username) {
         User user = new User();
         try {
-            user = userDao.findByUsername(username);
+            user = userDao.find(username);
         } catch (Exception e) {
             logger().info("Finding user failure");
         }
