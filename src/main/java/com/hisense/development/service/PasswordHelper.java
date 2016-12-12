@@ -13,14 +13,12 @@ import org.springframework.stereotype.Service;
  * <p>Date: 14-1-28
  * <p>Version: 1.0
  */
-//@Service
+@Service
 public class PasswordHelper {
 
     private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
 
-    @Value("${password.algorithmName}")
     private String algorithmName = "md5";
-    @Value("${password.hashIterations}")
     private int hashIterations = 2;
 
     public void setRandomNumberGenerator(RandomNumberGenerator randomNumberGenerator) {

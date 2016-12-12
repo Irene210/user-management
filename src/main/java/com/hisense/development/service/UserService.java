@@ -9,14 +9,7 @@ import javaslang.collection.List;
 /**
  * Created by Administrator on 2016/12/7 0007.
  */
-public interface UserService {
-    public boolean create(User user);
-
-    public boolean delete(List<String> usernames);
-
-    public boolean update(User user);
-
-    public boolean deleteAll();
+public interface UserService extends BaseService<User>{
 
     public boolean changePassword(String username, String newPassword);
 //
@@ -24,7 +17,6 @@ public interface UserService {
 //
 //    public void uncorrelationRoles(Long userId, Long... roleIds);
 //
-    public Option<User> findByUsername(String username);
 //
 //    public Set<String> findRoles(String username);
 

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2016/12/8 0008.
@@ -24,52 +24,58 @@ public class UserDaoTest extends TestCase {
     private  User irene;
 
     @Before
-    public void beforeTest() throws Exception{
+    public void beforeTest() {
+        userDao.deleteAll();
          irene = new User("irene","123");
         userDao.create(irene);
     }
     @After
-    public void afterTest() throws Exception{
+    public void afterTest() {
         userDao.deleteAll();
     }
 
     @Test
-    public void testCreateUser()throws Exception {
+    public void testCreateUser() {
         int size = userDao.findAll().size();
         userDao.create(new User("demo","123"));
         assertEquals(size+1,userDao.findAll().size());
     }
 
     @Test
-    public void testDelete()throws Exception {
+    public void testDelete() {
         User demo = new User("demo", "123");
         userDao.create(demo);
-        List<String> list = new LinkedList<String>();
-        list.add(irene.getUsername());
-        list.add(demo.getUsername());
-        boolean b = userDao.delete(list);
+        List<Long> collect = userDao.findAll().stream().map(s -> s.getId()).collect(Collectors.toList());
+        boolean b = userDao.delete(collect);
         assertTrue(b);
     }
 
     @Test
-    public void testFindByName() throws Exception{
-        User user = userDao.find(irene.getUsername());
-        assertEquals(irene.getUsername(),user.getUsername());
+    public void testFindByName() {
+        User user = userDao.find(irene.getName());
+        assertEquals(irene.getName(),user.getName());
         assertEquals(irene.getPassword(),user.getPassword());
         assertTrue(user.getId()>=0);
     }
 
     @Test
-    public void testFindAll() throws Exception{
-        User demo = new User("demo", "123");
-        userDao.create(demo);
-        assertTrue(userDao.findAll().size()==2);
-        assertTrue(userDao.findAll().toString().contains(demo.toString()));
-        assertTrue(userDao.findAll().toString().contains(irene.toString()));
+    public void testFindById() {
+        User user = userDao.find(irene.getName());
+        User user1 = userDao.find(user.getId());
+        assertEquals(irene.getName(),user1.getName());
+        assertEquals(irene.getPassword(),user1.getPassword());
+        assertEquals(user.getId(),user1.getId());
     }
 
     @Test
-    public void testUpdateUser()throws Exception {
+    public void testFindAll() {
+        User demo = new User("demo", "123");
+        userDao.create(demo);
+        assertTrue(userDao.findAll().size()==2);
+    }
+
+    @Test
+    public void testUpdateUser() {
         User irene = userDao.find("irene");
         irene.setSex("woman");
         irene.setDisplayNum(1);

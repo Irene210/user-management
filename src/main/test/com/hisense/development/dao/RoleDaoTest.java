@@ -11,8 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2016/12/9 0009.
@@ -26,36 +26,34 @@ public class RoleDaoTest extends TestCase {
     private Role role;
 
     @Before
-    public void beforeTest() throws Exception {
+    public void beforeTest()  {
         role= new Role("role", true);
         roleDao.create(role);
     }
 
     @After
-    public void afterTest() throws Exception {
+    public void afterTest()  {
         roleDao.deleteAll();
     }
 
     @Test
-    public void testCreateUser() throws Exception {
+    public void testCreateUser()  {
         int size = roleDao.findAll().size();
         roleDao.create(new Role("role1", true));
         assertEquals(size + 1, roleDao.findAll().size());
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete()  {
         Role demo = new Role("demo", true);
         roleDao.create(demo);
-        List<String> list = new LinkedList<String>();
-        list.add(role.getName());
-        list.add(demo.getName());
-        boolean b = roleDao.delete(list);
+        List<Long> collect = roleDao.findAll().stream().map(s -> s.getId()).collect(Collectors.toList());
+        boolean b = roleDao.delete(collect);
         assertTrue(b);
     }
 
     @Test
-    public void testFindByName() throws Exception {
+    public void testFindByName()  {
         Role role = roleDao.find(this.role.getName());
         assertEquals(this.role.getName(), role.getName());
         assertEquals(this.role.getAvailable(), role.getAvailable());
@@ -63,22 +61,20 @@ public class RoleDaoTest extends TestCase {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll()  {
         Role demo = new Role("demo", true);
         roleDao.create(demo);
         assertTrue(roleDao.findAll().size() == 2);
-        assertTrue(roleDao.findAll().toString().contains(demo.toString()));
-        assertTrue(roleDao.findAll().toString().contains(role.toString()));
     }
 
     @Test
-    public void testUpdateUser() throws Exception {
+    public void testUpdateUser()  {
         Role role = roleDao.find("role");
         Date createDate = new Date();
-        role.setCreateDate(createDate);
+        role.setAvailable(false);
         roleDao.update(role);
         Role actual = roleDao.find("role");
-        assertEquals(createDate, actual.getCreateDate());
+        assertFalse(actual.getAvailable());
     }
 
 }

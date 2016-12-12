@@ -1,6 +1,7 @@
 package com.hisense.development.service;
 
 import com.hisense.development.entity.User;
+import javaslang.control.Either;
 import javaslang.control.Option;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -21,6 +22,8 @@ import javaslang.collection.List;
 public class UserServiceTest extends TestCase {
     @Autowired
     UserService userService;
+    @Autowired
+    PasswordHelper passwordHelper;
     private User irene;
 
     @Before
@@ -37,47 +40,52 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void testCreateUser() {
-        assertTrue( userService.create(new User("irene2", "123")));
-        User actual = userService.findByUsername("irene2").get();
-        assertEquals("irene2", actual.getUsername());
+        Either<Exception, Boolean> irene2 = userService.create(new User("irene2", "123"));
+        assertTrue(irene2.get());
+        User actual = userService.find("irene2").get();
+        assertEquals("irene2", actual.getName());
         assertFalse(actual.getId().equals(""));
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void testCreateEmptyUser() {
-        assertFalse(userService.create(new User()));
+        userService.create(new User()).get();
     }
-    @Test
+    @Test(expected = Exception.class)
     public void testCreateExistedUser() {
-        assertFalse(userService.create(new User("irene", "123")));
+         userService.create(userService.find("irene").get()).get();
     }
+
 
     @Test
     public void testDeleteUser() {
-        List<String> list=List.of(irene.getUsername());
-        assertTrue(userService.delete(list));
+        List<Long> map = userService.findAll().map(s -> s.getId());
+        assertTrue(userService.delete(map).get());
     }
 
     @Test
     public void testDeleteNotExistedUser() {
-        List<String> list=List.of(irene.getUsername(),"");
-        assertFalse(userService.delete(list));
+        List<Long> map = userService.findAll().map(s -> s.getId());
+        map.append(new Long(111));
+        userService.delete(map);
     }
 
     @Test
     public void testUpdateUser() {
-        User user = userService.findByUsername(irene.getUsername()).get();
+        Option<User> byUsername = userService.find(irene.getName());
+        User user = byUsername.get();
         user.setSex("woman");
         user.setLocked(true);
         userService.update(user);
-        User actual = userService.findByUsername(irene.getUsername()).get();
+        User actual = userService.find(irene.getName()).get();
         assertEquals("woman", actual.getSex());
         assertTrue(actual.getLocked());
+
     }
 
     @Test
     public void testFindNotExistedUser() {
-        Option<User> userOption = userService.findByUsername("");
+        Option<User> userOption = userService.find("");
         assertTrue(userOption.equals(Option.none()));
     }
 

@@ -6,9 +6,7 @@ import java.util.Date;
 /**
  * Created by Administrator on 2016/12/7 0007.
  */
-public class Role implements Serializable {
-    private Long id;
-    private String name;
+public class Role extends BaseBo implements Serializable {
     private Boolean available = Boolean.FALSE;
     private User createUser;
     private Date createDate;
@@ -37,22 +35,6 @@ public class Role implements Serializable {
         this.available = available;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Boolean getAvailable() {
         return available;
     }
@@ -61,14 +43,4 @@ public class Role implements Serializable {
         this.available = available;
     }
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", create='" + createUser.getUsername() + '\'' +
-                ", createDate='" + createDate + '\'' +
-                ", available=" + available +
-                '}';
-    }
 }

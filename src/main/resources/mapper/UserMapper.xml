@@ -15,15 +15,19 @@
     </select>
 
     <select id="find" resultType="com.hisense.development.entity.User">
-        SELECT * FROM SYS_USERS WHERE USERNAME=#{username}
+        SELECT * FROM SYS_USERS WHERE USERNAME=#{username} OR ID=#{id}
     </select>
+
+    <!--<select id="find" parameterType="Long" resultType="com.hisense.development.entity.User">-->
+        <!--SELECT * FROM SYS_USERS WHERE ID=#{id}-->
+    <!--</select>-->
 
     <delete id="deleteAll">
         DELETE from SYS_USERS
     </delete>
 
     <delete id="delete">
-        DELETE FROM SYS_USERS WHERE USERNAME in
+        DELETE FROM SYS_USERS WHERE ID in
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -31,11 +35,11 @@
 
     <update id="update" parameterType="com.hisense.development.entity.User">
         update SYS_USERS
-        set NAME = #{name}, SEX = #{sex},
+        set SEX = #{sex},
         TELEPHONE =#{telephone},DEPARTMENTID =#{department.getId()},
         USERNAME =#{username},PASSWORD =# {password},
         SALT =#{salt},LOCKED=#{locked},
         DISPLAYNUM=#{displayNum}
-        where USERNAME = #{username}
+        where ID = #{id}
     </update>
 </mapper>

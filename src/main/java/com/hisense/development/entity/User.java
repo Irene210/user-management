@@ -1,14 +1,14 @@
 package com.hisense.development.entity;
 
+import com.hisense.development.dao.BaseDao;
+
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016/12/7 0007.
  */
-public class User implements Serializable {
-    private Long id;
+public class User extends BaseBo implements Serializable {
     private String username;
-    private String name;
     private String sex;
     private String telephone;
     private Department department;
@@ -18,11 +18,11 @@ public class User implements Serializable {
     private String salt;
 
     public String getName() {
-        return name;
+        return username;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.username = name;
     }
 
     public String getSex() {
@@ -67,22 +67,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -111,28 +95,4 @@ public class User implements Serializable {
         this.locked = locked;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                " username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
