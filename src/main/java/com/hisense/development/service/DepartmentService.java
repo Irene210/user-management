@@ -1,6 +1,7 @@
 package com.hisense.development.service;
 
 import com.hisense.development.entity.Department;
+import javaslang.control.Either;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface DepartmentService extends BaseService<Department>{
     public boolean deleteDepartment(Long id);
-
+    public boolean isLegal(Department bo);
 }

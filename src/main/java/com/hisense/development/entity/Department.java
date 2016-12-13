@@ -14,10 +14,10 @@ public class Department extends BaseBo implements Serializable {
 
     String departmentNum;
     String manager;
-    int telephone;
+    String telephone;
     String date;
-    int displayId;
-    Long fatherDepartment;
+    Long displayId;
+    Long parentDepartmentId;
 
     public String getDepartmentNum() {
         return departmentNum;
@@ -35,11 +35,11 @@ public class Department extends BaseBo implements Serializable {
         this.manager = manager;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
@@ -51,19 +51,19 @@ public class Department extends BaseBo implements Serializable {
         this.date = date;
     }
 
-    public int getDisplayId() {
+    public Long getDisplayId() {
         return displayId;
     }
 
-    public void setDisplayId(int displayId) {
+    public void setDisplayId(Long displayId) {
         this.displayId = displayId;
     }
 
-    public Long getFatherDepartment() {
-        return fatherDepartment;
+    public Long getParentDepartmentId() {
+        return parentDepartmentId;
     }
 
-    public void setFatherDepartment(Long fatherDepartment) {
-        this.fatherDepartment = fatherDepartment;
+    public void setParentDepartmentId(Long parentDepartmentId) {
+        this.parentDepartmentId = parentDepartmentId;
     }
 }
