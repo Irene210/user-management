@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hisense.development.base.persistence.DepartmentMapper">
+<mapper namespace="com.hisense.hiutbd.platform.base.persistence.DepartmentMapper">
     <resultMap type="Department" id="departmentResultMap">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
@@ -11,8 +11,6 @@
         <result property="displayId" column="displayId"/>
         <result property="parentDepartment" column="parentDepartment"/>
     </resultMap>
-    
-    
     <select id="find"  resultType="Department" resultMap="departmentResultMap">
             SELECT * from Department
                 WHERE id = #{id} OR name=#{name}
@@ -20,7 +18,7 @@
 
 
     
-    <select id="findAll" resultType="com.hisense.development.base.domain.Department" resultMap="departmentResultMap">
+    <select id="findAll" resultType="Department" resultMap="departmentResultMap">
            SELECT * from Department ORDER BY displayId
     </select>
     
@@ -30,13 +28,13 @@
     </select>
     
     
-    <insert id="create" parameterType="com.hisense.development.base.domain.Department">
+    <insert id="create" parameterType="Department">
     INSERT INTO Department(name,departmentNum,manager,telephone,date,displayId,parentDepartmentId)
     VALUES (#{name},#{departmentNum},#{manager},#{telephone},#{date},#{displayId},#{parentDepartmentId})
     </insert>
     
     
-    <update id="update" parameterType="com.hisense.development.base.domain.Department">
+    <update id="update" parameterType="Department">
     UPDATE Department SET name=#{name},
     departmentNum=#{departmentNum},manager=#{manager},telephone=#{telephone},date=#{date},
     displayId=#{displayId},parentDepartmentId=#{parentDepartmentId} WHERE id=#{id}

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisense.development.base.persistence.RoleMapper">
-    <select id="findById" resultType="com.hisense.development.base.domain.Role">
+<mapper namespace="com.hisense.hiutbd.platform.base.persistence.RoleMapper">
+    <select id="findById" resultType="com.hisense.hiutbd.platform.base.domain.Role">
         SELECT * FROM SYS_ROLES WHERE ID=#{id}
     </select>
-    <insert id="create" parameterType="com.hisense.development.base.domain.Role"
+    <insert id="create" parameterType="com.hisense.hiutbd.platform.base.domain.Role"
             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
         INSERT INTO SYS_ROLES (NAME, AVAILABLE, CREATEUSERID, CREATEDATE)
         VALUES (#{name}, #{available}, #{createUser.id}, #{createDate})
     </insert>
-    <select id="findAll" resultType="com.hisense.development.base.domain.Role">
+    <select id="findAll" resultType="com.hisense.hiutbd.platform.base.domain.Role">
         SELECT * FROM SYS_ROLES
     </select>
 
-    <select id="find" resultType="com.hisense.development.base.domain.Role">
+    <select id="find" resultType="com.hisense.hiutbd.platform.base.domain.Role">
         SELECT * FROM SYS_ROLES WHERE NAME =#{name} OR ID =#{id}
     </select>
 
@@ -28,7 +28,7 @@
         </foreach>
     </delete>
 
-    <update id="update" parameterType="com.hisense.development.base.domain.Role">
+    <update id="update" parameterType="com.hisense.hiutbd.platform.base.domain.Role">
         update SYS_ROLES
         set NAME = #{name}, AVAILABLE = #{available},
         CREATEUSERID =#{createUser.id},CREATEDATE =#{createDate}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hisense.hiutbd.platform.base.persistence.DepartmentMapper" >
+
+	<select id="getList" resultType="DepartmentVO" parameterType="DepartmentQO" >
+		select id,
+			name,
+			manager,
+			phone,
+			lmt
+		from department
+		<where>
+			<if test="name != null and name != ''">
+				and name like '%${name}%'
+			</if>
+			<if test="manager != null and manager != ''">
+				and manager like '%${manager}%'
+			</if>
+		</where>
+		order by order_num
+	</select>
+
+	<insert id="create" parameterType="Department" >
+		insert into department (id, name, manager,
+		phone, parent_id, order_num, create_user, create_time,
+		change_user, change_time, lmt
+		)
+		values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{manager,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{orderNum,jdbcType=INTEGER},
+		#{createUser,jdbcType=VARCHAR}, #{createTime}, #{changeUser,jdbcType=VARCHAR}, #{changeTime}, #{lmt,jdbcType=DECIMAL})
+	</insert>
+
+	<update id="del" parameterType="DepartmentDTO">
+		delete from department where id=#{id} and lmt=#{lmt}
+	</update>
+
+	<update id="update" parameterType="Department" >
+		update department
+		<set >
+			<if test="po.name != null" >
+				name = #{po.name,jdbcType=VARCHAR},
+			</if>
+			<if test="po.manager != null" >
+				manager = #{po.manager,jdbcType=VARCHAR},
+			</if>
+			<if test="po.phone != null" >
+				phone = #{po.phone,jdbcType=VARCHAR},
+			</if>
+			<if test="po.parentId != null" >
+				parent_id = #{po.parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="po.orderNum != null" >
+				order_num = #{po.orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="po.lmt != null" >
+				lmt = #{po.lmt},
+			</if>
+		</set>
+		where id = #{po.id,jdbcType=VARCHAR} and lmt=#{lmt}
+	</update>
+
+	<select id="getInfo" resultType="DepartmentVO" parameterType="string" >
+		select id,
+			name,
+			manager,
+			phone,
+			order_num as orderNum,
+			parent_id as parentId,
+			lmt
+		from department
+		where id=#{0}
+	</select>
+
+	<select id="getCountByName" resultType="int">
+		select
+			count(1)
+		from department
+		where name = #{0}
+	</select>
+
+	<select id="getCountByNameId" resultType="int">
+		select
+			count(1)
+		from department
+		where id != #{1}
+		and name = #{0}
+	</select>
+
+	<select id="getChildCountById" resultType="int">
+		select
+			count(1)
+		from department
+		where parent_id = #{0}
+	</select>
+
+</mapper>

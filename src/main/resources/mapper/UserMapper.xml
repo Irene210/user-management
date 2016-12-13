@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hisense.development.base.persistence.UserMapper">
-    <select id="findById" resultType="com.hisense.development.base.domain.User">
+<mapper namespace="com.hisense.hiutbd.platform.base.persistence.UserMapper">
+    <select id="findById" resultType="com.hisense.hiutbd.platform.base.domain.User">
    SELECT * FROM SYS_USERS WHERE ID=#{id}
   </select>
-    <insert id="create" parameterType="com.hisense.development.base.domain.User"
+    <insert id="create" parameterType="com.hisense.hiutbd.platform.base.domain.User"
             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
        INSERT INTO SYS_USERS (NAME,SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,DISPLAYNUM )
         VALUES ( #{id},#{sex}, #{telephone}, #{department.id},#{username},
@@ -17,11 +17,11 @@
     <select id="find" resultMap="UserRelationWithDepartment">
         SELECT * FROM SYS_USERS WHERE USERNAME=#{username} OR ID=#{id}
     </select>
-    <resultMap type="com.hisense.development.base.domain.User" id="UserRelationWithDepartment">
+    <resultMap type="com.hisense.hiutbd.platform.base.domain.User" id="UserRelationWithDepartment">
         <association property="department"  column="DEPARTMENTID"  select="selectDepartment" />
     </resultMap>
 
-    <select id="selectDepartment" resultType="com.hisense.development.base.domain.Department">
+    <select id="selectDepartment" resultType="com.hisense.hiutbd.platform.base.domain.Department">
         SELECT * FROM Department WHERE id=#{DEPARTMENTID}
     </select>
 
@@ -37,7 +37,7 @@
         </foreach>
     </delete>
 
-    <update id="update" parameterType="com.hisense.development.base.domain.User">
+    <update id="update" parameterType="com.hisense.hiutbd.platform.base.domain.User">
         update SYS_USERS
         set SEX = #{sex},
         NAME=#{name},
@@ -48,7 +48,7 @@
         where ID = #{id}
     </update>
 
-    <insert id="correlationRoles" parameterType="com.hisense.development.base.domain.UserRole">
+    <insert id="correlationRoles" parameterType="com.hisense.hiutbd.platform.base.domain.UserRole">
         insert into SYS_USERS_ROLES(USER_ID, ROLE_ID) values(#{userId},#{roleId})
 
     </insert>
@@ -57,7 +57,7 @@
         DELETE FROM SYS_USERS_ROLES WHERE USER_ID =#{userId}
     </delete>
 
-    <select id="findRoles" resultType="com.hisense.development.base.domain.Role">
+    <select id="findRoles" resultType="com.hisense.hiutbd.platform.base.domain.Role">
         select r.NAME,r.CREATEDATE,r.ID from SYS_USERS u, SYS_ROLES r,SYS_USERS_ROLES ur where u.ID=#{id}
          and u.id=ur.USER_ID and r.id=ur.ROLE_ID
     </select>
