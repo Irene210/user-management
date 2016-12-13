@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisense.development.dao.DepartmentDao">
+    <resultMap type="Department" id="departmentResultMap">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="depId" column="depid"/>
+        <result property="charger" column="charger"/>
+        <result property="tel" column="tel"/>
+        <result property="date" column="date"/>
+        <result property="displayId" column="displayId"/>
+        <result property="fatherDep" column="fatherDep"/>
+    </resultMap>
+    
+    
+    <select id="find" parameterType="Long" resultType="Department" resultMap="departmentResultMap">
+            SELECT * from Department
+                WHERE id = #{id}
+    </select>
+    
+
+    
+    
+    <select id="findAll" resultType="com.hisense.development.entity.Department" resultMap="departmentResultMap">
+           SELECT * from Department ORDER BY displayId
+    </select>
+    
+    
+    <select id="queryChildren" parameterType="int" resultType="Department">
+    SELECT * FROM Department WHERE fatherDep=#{id}
+    </select>
+    
+    
+    <insert id="create" parameterType="com.hisense.development.entity.Department">
+    INSERT INTO Department(name,depId,charger,tel,date,displayId,fatherDep)
+    VALUES (#{name},#{depId},#{charger},#{tel},#{date},#{displayId},#{fatherDep})
+    </insert>
+    
+    
+    <update id="update" >
+    UPDATE Department SET name=#{name},
+    depId=#{depId},tel=#{tel},date=#{date},
+    displayId=#{displayId},fatherDep=#{fatherDep} WHERE id=#{id}
+    </update>
+    
+    
+    <delete id="delete">
+    DELETE FROM Department WHERE id IN
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")" >
+        #{item}
+    </foreach>
+    </delete>
+    
+    
+    <delete id="delAll" parameterType="int">
+        DELETE FROM Department 
+    </delete>
+
+    <delete id="deleteDepartment" parameterType="int">
+        DELETE FROM Department WHERE id=#{id}
+    </delete>
+
+</mapper>
