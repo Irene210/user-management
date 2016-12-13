@@ -1,14 +1,11 @@
-package com.hisense.development.dao;
+package com.hisense.development.base.persistence;
 
-import com.hisense.development.entity.User;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/9 0009.
  */
-public interface BaseDao <T> {
+public interface BaseMapper<T> {
     public boolean create(T entity) ;
 
     public List<T> findAll()  ;

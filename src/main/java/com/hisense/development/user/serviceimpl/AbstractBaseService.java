@@ -1,8 +1,8 @@
-package com.hisense.development.service;
+package com.hisense.development.user.serviceimpl;
 
-import com.hisense.development.dao.BaseDao;
-import com.hisense.development.entity.BaseBo;
-import com.hisense.development.entity.User;
+import com.hisense.development.base.persistence.BaseMapper;
+import com.hisense.development.base.domain.BaseBo;
+import com.hisense.development.user.service.BaseService;
 import javaslang.collection.List;
 import javaslang.control.Either;
 import javaslang.control.Option;
@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class AbstractBaseService<T extends BaseBo> implements BaseService<T> {
     @Autowired
-    BaseDao<T> baseDao;
+    BaseMapper<T> baseMapper;
 
     @Override
     public Either<Exception, Boolean> create(T bo) {
-        if (bo.getName() != null && baseDao.find(bo.getName()) == null) {
+        if (bo.getName() != null && baseMapper.find(bo.getName()) == null) {
             logger().info("Creating: " + bo);
-            return doAction(() -> baseDao.create(bo));
+            return doAction(() -> baseMapper.create(bo));
         }
         return Either.left(new Exception());
     }
@@ -27,28 +27,28 @@ public abstract class AbstractBaseService<T extends BaseBo> implements BaseServi
 
     public Either<Exception, Boolean> update(T bo) {
         logger().info("Updating: " + bo);
-        return doAction(() -> find(bo.getId()).map(s -> baseDao.update(bo)).getOrElse(false));
+        return doAction(() -> find(bo.getId()).map(s -> baseMapper.update(bo)).getOrElse(false));
     }
 
     public Option<T> find(String id) {
         logger().debug("Finding: " + id);
-        return doAction(() -> baseDao.find(id)).toOption().flatMap(Option::of);
+        return doAction(() -> baseMapper.find(id)).toOption().flatMap(Option::of);
     }
 
     public Option<T> find(Long id) {
-        return doAction(() -> baseDao.find(id)).toOption().flatMap(Option::of);
+        return doAction(() -> baseMapper.find(id)).toOption().flatMap(Option::of);
     }
 
     public List<T> findAll() {
-        return doAction(()->List.ofAll(baseDao.findAll())).get() ;
+        return doAction(()->List.ofAll(baseMapper.findAll())).get() ;
     }
 
     public Either<Exception, Boolean> delete(List<Long> ids) {
         logger().info("Deleting: " + ids);
-        return doAction(() -> baseDao.delete(ids.toJavaList()));
+        return doAction(() -> baseMapper.delete(ids.toJavaList()));
     }
 
     public Either<Exception, Boolean> deleteAll() {
-        return doAction(() -> baseDao.deleteAll());
+        return doAction(() -> baseMapper.deleteAll());
     }
 }

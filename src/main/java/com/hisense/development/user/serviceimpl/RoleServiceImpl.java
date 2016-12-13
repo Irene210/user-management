@@ -1,6 +1,7 @@
-package com.hisense.development.service;
+package com.hisense.development.user.serviceimpl;
 
-import com.hisense.development.entity.Role;
+import com.hisense.development.base.domain.Role;
+import com.hisense.development.user.service.RoleService;
 import org.springframework.stereotype.Service;
 
 /**

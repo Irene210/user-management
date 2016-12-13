@@ -1,8 +1,8 @@
 package com.hisense.development.dao;
 
-import com.hisense.development.entity.Role;
+import com.hisense.development.base.persistence.RoleMapper;
+import com.hisense.development.base.domain.Role;
 import junit.framework.TestCase;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
 public class RoleDaoTest extends TestCase {
 
     @Autowired
-    RoleDao roleDao;
+    RoleMapper roleDao;
     private Role role;
 
     @Before

@@ -1,4 +1,4 @@
-package com.hisense.development.entity;
+package com.hisense.development.base.domain;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -11,6 +11,14 @@ public class User extends BaseBo implements Serializable {
     private String sex;
     private String telephone;
     private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     private int displayNum;
     private String password;
@@ -26,12 +34,12 @@ public class User extends BaseBo implements Serializable {
         this.roles = roles;
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setName(String name) {
-        this.username = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getSex() {
@@ -48,14 +56,6 @@ public class User extends BaseBo implements Serializable {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
     }
 
     public int getDisplayNum() {

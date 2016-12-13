@@ -1,6 +1,7 @@
 package com.hisense.development.service;
 
-import com.hisense.development.entity.Role;
+import com.hisense.development.base.domain.Role;
+import com.hisense.development.user.service.RoleService;
 import javaslang.collection.List;
 import javaslang.control.Either;
 import javaslang.control.Option;

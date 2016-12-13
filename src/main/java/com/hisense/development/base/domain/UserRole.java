@@ -1,4 +1,4 @@
-package com.hisense.development.entity;
+package com.hisense.development.base.domain;
 
 import java.io.Serializable;
 

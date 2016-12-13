@@ -1,10 +1,6 @@
-package com.hisense.development.entity;
-
-import com.hisense.development.dao.BaseDao;
-import org.springframework.stereotype.Service;
+package com.hisense.development.base.domain;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/7 0007.

@@ -1,7 +1,10 @@
 package com.hisense.development.service;
 
-import com.hisense.development.entity.Role;
-import com.hisense.development.entity.User;
+import com.hisense.development.base.domain.Role;
+import com.hisense.development.base.domain.User;
+import com.hisense.development.user.service.RoleService;
+import com.hisense.development.user.service.UserService;
+import com.hisense.development.user.serviceimpl.PasswordHelper;
 import javaslang.collection.List;
 import javaslang.control.Either;
 import javaslang.control.Option;
@@ -47,7 +50,7 @@ public class UserServiceTest extends TestCase {
         Either<Exception, Boolean> irene2 = userService.create(new User("irene2", "123"));
         assertTrue(irene2.get());
         User actual = userService.find("irene2").get();
-        assertEquals("irene2", actual.getName());
+        assertEquals("irene2", actual.getUsername());
         assertFalse(actual.getId().equals(""));
     }
 
@@ -76,12 +79,12 @@ public class UserServiceTest extends TestCase {
 
     @Test
     public void testUpdateUser() {
-        Option<User> byUsername = userService.find(irene.getName());
+        Option<User> byUsername = userService.find(irene.getUsername());
         User user = byUsername.get();
         user.setSex("woman");
         user.setLocked(true);
         userService.update(user);
-        User actual = userService.find(irene.getName()).get();
+        User actual = userService.find(irene.getUsername()).get();
         assertEquals("woman", actual.getSex());
         assertTrue(actual.getLocked());
 
@@ -112,7 +115,7 @@ public class UserServiceTest extends TestCase {
         roleService.create(new Role("role2",true));
         Set<Long> roleIds = roleService.findAll().toStream().map(s -> s.getId()).toSet();
         Long userId = userService.find("irene").get().getId();
-        Boolean correlationRoles = userService.correlationRoles(userId, roleIds);
+        userService.correlationRoles(userId, roleIds);
         assertTrue(userService.findRoles(userId).get().size()==3);
     }
 

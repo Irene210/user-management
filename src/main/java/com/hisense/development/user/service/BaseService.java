@@ -1,4 +1,4 @@
-package com.hisense.development.service;
+package com.hisense.development.user.service;
 
 import com.hisense.development.Loggable;
 import javaslang.Function0;
@@ -40,7 +40,6 @@ public interface BaseService<T> extends Loggable {
 
     }
 
-    //TODO for testing
     Either<Exception, Boolean> deleteAll();
 
 }

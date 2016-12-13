@@ -1,7 +1,7 @@
-package com.hisense.development.service;
+package com.hisense.development.user.service;
 
-import com.hisense.development.entity.Role;
-import com.hisense.development.entity.User;
+import com.hisense.development.base.domain.Role;
+import com.hisense.development.base.domain.User;
 import javaslang.collection.Set;
 import javaslang.control.Either;
 
@@ -16,6 +16,7 @@ public interface UserService extends BaseService<User> {
     public Boolean correlationRoles(Long userId, Set<Long> roleIds);
 
     public Either<Exception, Boolean> uncorrelationRoles(Long userId);
+
 
     public Either<Exception, Set<Role>> findRoles(Long userId);
 

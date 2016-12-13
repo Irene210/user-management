@@ -1,7 +1,9 @@
-package com.hisense.development.service;
+package com.hisense.development.user.serviceimpl;
 
-import com.hisense.development.dao.DepartmentDao;
-import com.hisense.development.entity.Department;
+import com.hisense.development.base.persistence.DepartmentMapper;
+import com.hisense.development.base.domain.Department;
+import com.hisense.development.user.service.DepartmentService;
+import com.hisense.development.user.serviceimpl.AbstractBaseService;
 import javaslang.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,10 +15,8 @@ import java.util.List;
 public class DepartmentServiceImpl extends AbstractBaseService<Department>
         implements DepartmentService {
     @Autowired
-    DepartmentDao departmentDao;
+    DepartmentMapper departmentDao;
 
-
-    @Override
     public boolean isLegal(Department bo) {
         if (bo.getName() != null
                 && bo.getDepartmentNum() != null
@@ -44,9 +44,9 @@ public class DepartmentServiceImpl extends AbstractBaseService<Department>
 
     @Override
     public Either<Exception, Boolean> create(Department bo) {
-        if (isLegal(bo) && baseDao.find(bo.getName()) == null) {
+        if (isLegal(bo) && baseMapper.find(bo.getName()) == null) {
             logger().info("Creating: " + bo);
-            return doAction(() -> baseDao.create(bo));
+            return doAction(() -> baseMapper.create(bo));
         }
         return Either.left(new Exception());
     }
@@ -54,8 +54,7 @@ public class DepartmentServiceImpl extends AbstractBaseService<Department>
     @Override
     public Either<Exception, Boolean> update(Department bo) {
         if (isLegal(bo)) {
-            logger().info("Updating: " + bo);
-            return doAction(() -> find(bo.getId()).map(s -> baseDao.update(bo)).getOrElse(false));
+            return super.update(bo);
         }
         return Either.left(new Exception());
 

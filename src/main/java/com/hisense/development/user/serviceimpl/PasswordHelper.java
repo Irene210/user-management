@@ -1,11 +1,10 @@
-package com.hisense.development.service;
+package com.hisense.development.user.serviceimpl;
 
-import com.hisense.development.entity.User;
+import com.hisense.development.base.domain.User;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,6 +1,7 @@
 package com.hisense.development.dao;
 
-import com.hisense.development.entity.Department;
+import com.hisense.development.base.persistence.DepartmentMapper;
+import com.hisense.development.base.domain.Department;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,7 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:spring/spring-context.xml"})
 public class DepartmentDaoTest extends TestCase {
     @Autowired
-    DepartmentDao departmentDao;
+    DepartmentMapper departmentDao;
     Department department = new Department();
 
     @Test

@@ -1,8 +1,7 @@
-package com.hisense.development.dao;
+package com.hisense.development.base.persistence;
 
-import com.hisense.development.entity.Department;
+import com.hisense.development.base.domain.Department;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  * Created by Administrator on 2016/12/8.
  */
 @Repository
-public interface DepartmentDao extends BaseDao<Department> {
+public interface DepartmentMapper extends BaseMapper<Department> {
     public boolean deleteDepartment(Long id);
     public List<Department> findChildDepartment(Long id);
 }

@@ -1,11 +1,13 @@
 package com.hisense.development.dao;
 
-import com.hisense.development.entity.Department;
-import com.hisense.development.entity.Role;
-import com.hisense.development.entity.User;
-import com.hisense.development.entity.UserRole;
+import com.hisense.development.base.persistence.DepartmentMapper;
+import com.hisense.development.base.persistence.RoleMapper;
+import com.hisense.development.base.persistence.UserMapper;
+import com.hisense.development.base.domain.Department;
+import com.hisense.development.base.domain.Role;
+import com.hisense.development.base.domain.User;
+import com.hisense.development.base.domain.UserRole;
 import junit.framework.TestCase;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +26,11 @@ import java.util.stream.Collectors;
 @ContextConfiguration(locations = {"classpath:spring/spring-context.xml"})
 public class UserDaoTest extends TestCase {
     @Autowired
-    UserDao userDao;
+    UserMapper userDao;
     @Autowired
-    RoleDao roleDao;
+    RoleMapper roleDao;
     @Autowired
-    DepartmentDao departmentDao;
+    DepartmentMapper departmentDao;
 
     private  User irene;
 
@@ -58,17 +60,17 @@ public class UserDaoTest extends TestCase {
 
     @Test
     public void testFindByName() {
-        User user = userDao.find(irene.getName());
-        assertEquals(irene.getName(),user.getName());
+        User user = userDao.find(irene.getUsername());
+        assertEquals(irene.getUsername(),user.getUsername());
         assertEquals(irene.getPassword(),user.getPassword());
         assertTrue(user.getId()>=0);
     }
 
     @Test
     public void testFindById() {
-        User user = userDao.find(irene.getName());
+        User user = userDao.find(irene.getUsername());
         User user1 = userDao.find(user.getId());
-        assertEquals(irene.getName(),user1.getName());
+        assertEquals(irene.getUsername(),user1.getUsername());
         assertEquals(irene.getPassword(),user1.getPassword());
         assertEquals(user.getId(),user1.getId());
     }
@@ -116,10 +118,13 @@ public class UserDaoTest extends TestCase {
     public void testCreateUserWithDepartment() {
         int size = userDao.findAll().size();
         Department department = new Department();
+        department.setName("department");
         departmentDao.create(department);
         User demo = new User("demo", "123");
-        demo.setDepartment(departmentDao.findAll().get(0));
+        Department department1 = departmentDao.findAll().get(0);
+        demo.setDepartment(department1);
         userDao.create(demo);
-        assertEquals(size+1,userDao.findAll().size());
+        assertEquals(userDao.find("demo").getDepartment().getName(),department1.getName());
+        assertEquals(userDao.find("demo").getDepartment().getId(),department1.getId());
     }
 }
