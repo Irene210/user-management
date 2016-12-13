@@ -8,9 +8,20 @@ import java.util.Set;
  */
 public class User extends BaseBo implements Serializable {
     private String username;
+
     private String sex;
+
     private String telephone;
+
     private Department department;
+
+    private int displayNum;
+
+    private String password;
+
+    private Boolean locked = Boolean.FALSE;
+
+    private String salt;
 
     public Department getDepartment() {
         return department;
@@ -20,9 +31,7 @@ public class User extends BaseBo implements Serializable {
         this.department = department;
     }
 
-    private int displayNum;
-    private String password;
-    private String salt;
+
 
     private Set<Role> roles;
 
@@ -66,12 +75,11 @@ public class User extends BaseBo implements Serializable {
         this.displayNum = displayNum;
     }
 
-    private Boolean locked = Boolean.FALSE;
-
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String id,String username, String password) {
+        this.id=id;
         this.username = username;
         this.password = password;
     }

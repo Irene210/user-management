@@ -29,7 +29,7 @@ public class RoleServiceTest {
     @Before
     public void beforeTest(){
         roleService.deleteAll();
-        role = new Role("role", true);
+        role = new Role("1","role", true);
         roleService.create(role);
     }
 
@@ -40,7 +40,7 @@ public class RoleServiceTest {
 
     @Test
     public void testCreateUser() {
-        Either<Exception, Boolean> irene2 = roleService.create(new Role("irene2", true));
+        Either<Exception, Boolean> irene2 = roleService.create(new Role("1","irene2", true));
         assertTrue(irene2.get());
         Role actual = roleService.find("irene2").get();
         assertEquals("irene2", actual.getName());
@@ -59,14 +59,14 @@ public class RoleServiceTest {
 
     @Test
     public void testDeleteUser() {
-        List<Long> map = roleService.findAll().map(s -> s.getId());
+        List<String> map = roleService.findAll().map(s -> s.getId());
         assertTrue(roleService.delete(map).get());
     }
 
     @Test
     public void testDeleteNotExistedUser() {
-        List<Long> map = roleService.findAll().map(s -> s.getId());
-        map.append(new Long(111));
+        List<String> map = roleService.findAll().map(s -> s.getId());
+        map.append("");
         roleService.delete(map);
     }
 

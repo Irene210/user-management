@@ -38,22 +38,22 @@ public class UserDaoTest extends TestCase {
     public void beforeTest() {
         userDao.deleteAll();
         roleDao.deleteAll();
-         irene = new User("irene","123");
+         irene = new User("5","irene","123");
         userDao.create(irene);
     }
 
     @Test
     public void testCreateUser() {
         int size = userDao.findAll().size();
-        userDao.create(new User("demo","123"));
+        userDao.create(new User("2","demo","123"));
         assertEquals(size+1,userDao.findAll().size());
     }
 
     @Test
     public void testDelete() {
-        User demo = new User("demo", "123");
+        User demo = new User("2","demo", "123");
         userDao.create(demo);
-        List<Long> collect = userDao.findAll().stream().map(s -> s.getId()).collect(Collectors.toList());
+        List<String> collect = userDao.findAll().stream().map(s -> s.getId()).collect(Collectors.toList());
         boolean b = userDao.delete(collect);
         assertTrue(b);
     }
@@ -63,7 +63,7 @@ public class UserDaoTest extends TestCase {
         User user = userDao.find(irene.getUsername());
         assertEquals(irene.getUsername(),user.getUsername());
         assertEquals(irene.getPassword(),user.getPassword());
-        assertTrue(user.getId()>=0);
+        assertFalse(user.equals(null));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class UserDaoTest extends TestCase {
 
     @Test
     public void testFindAll() {
-        User demo = new User("demo", "123");
+        User demo = new User("2","demo", "123");
         userDao.create(demo);
         assertTrue(userDao.findAll().size()==2);
     }
@@ -95,17 +95,16 @@ public class UserDaoTest extends TestCase {
 
     @Test
     public void testCorrelationRoles() {
-        Long id = new Long(3);
-        UserRole userRole = new UserRole(id, id);
+        UserRole userRole = new UserRole("1", "1");
         assertTrue(userDao.correlationRoles(userRole));
-        assertTrue(userDao.uncorrelationRoles(id));
+        assertTrue(userDao.uncorrelationRoles("1"));
     }
 
     @Test
     public void testFindRoles() {
-        roleDao.create(new Role("role",true));
-        roleDao.create(new Role("role1",true));
-        roleDao.create(new Role("role2",true));
+        roleDao.create(new Role("1","role",true));
+        roleDao.create(new Role("2","role1",true));
+        roleDao.create(new Role("3","role2",true));
         User irene = userDao.find("irene");
         assertTrue(userDao.correlationRoles(new UserRole(irene.getId(), roleDao.find("role").getId())));
         assertTrue(userDao.correlationRoles(new UserRole(irene.getId(), roleDao.find("role1").getId())));
@@ -120,7 +119,7 @@ public class UserDaoTest extends TestCase {
         Department department = new Department();
         department.setName("department");
         departmentDao.create(department);
-        User demo = new User("demo", "123");
+        User demo = new User("2","demo", "123");
         Department department1 = departmentDao.findAll().get(0);
         demo.setDepartment(department1);
         userDao.create(demo);

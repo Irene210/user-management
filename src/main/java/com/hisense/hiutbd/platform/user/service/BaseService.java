@@ -16,7 +16,7 @@ public interface BaseService<T> extends Loggable {
 
     Either<Exception, Boolean> update(T bo);
 
-    Either<Exception, Boolean> delete(List<Long> ids);
+    Either<Exception, Boolean> delete(List<String> ids);
 
     Option<T> find(Long id);
 

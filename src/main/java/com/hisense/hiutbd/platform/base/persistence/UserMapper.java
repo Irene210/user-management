@@ -16,7 +16,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     public Boolean correlationRoles(UserRole userRole);
 
-    public Boolean uncorrelationRoles(Long id);
+    public Boolean uncorrelationRoles(String id);
 
-    public Set<Role> findRoles(Long id);
+    public Set<Role> findRoles(String id);
 }

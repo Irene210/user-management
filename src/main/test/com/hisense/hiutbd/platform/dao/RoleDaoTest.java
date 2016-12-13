@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Administrator on 2016/12/9 0009.
@@ -27,23 +28,23 @@ public class RoleDaoTest extends TestCase {
     @Before
     public void beforeTest()  {
         roleDao.deleteAll();
-        role= new Role("role", true);
+        role= new Role("1","role", true);
         roleDao.create(role);
     }
 
     @Test
     public void testCreateUser()  {
         int size = roleDao.findAll().size();
-        roleDao.create(new Role("role1", true));
+        roleDao.create(new Role("2","role1", true));
         assertEquals(size + 1, roleDao.findAll().size());
     }
 
     @Test
     public void testDelete()  {
-        Role demo = new Role("demo", true);
+        Role demo = new Role("2","demo", true);
         roleDao.create(demo);
-        List<Long> collect = roleDao.findAll().stream().map(s -> s.getId()).collect(Collectors.toList());
-        boolean b = roleDao.delete(collect);
+        List<String> collect1 = roleDao.findAll().stream().map(role1 -> role1.getId()).collect(Collectors.toList());
+        boolean b = roleDao.delete(collect1);
         assertTrue(b);
     }
 
@@ -52,12 +53,12 @@ public class RoleDaoTest extends TestCase {
         Role role = roleDao.find(this.role.getName());
         assertEquals(this.role.getName(), role.getName());
         assertEquals(this.role.getAvailable(), role.getAvailable());
-        assertTrue(role.getId() >= 0);
+        assertFalse(role.equals(null));
     }
 
     @Test
     public void testFindAll()  {
-        Role demo = new Role("demo", true);
+        Role demo = new Role("3","demo", true);
         roleDao.create(demo);
         assertTrue(roleDao.findAll().size() == 2);
     }

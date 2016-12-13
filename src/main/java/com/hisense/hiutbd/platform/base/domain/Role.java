@@ -7,30 +7,15 @@ import java.util.Date;
  * Created by Administrator on 2016/12/7 0007.
  */
 public class Role extends BaseBo implements Serializable {
+
     private Boolean available = Boolean.FALSE;
-    private User createUser;
-    private Date createDate;
 
-    public User getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(User createUser) {
-        this.createUser = createUser;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
 
     public Role() {
     }
 
-    public Role(String name, Boolean available) {
+    public Role(String id,String name, Boolean available) {
+        this.id=id;
         this.name = name;
         this.available = available;
     }

@@ -13,11 +13,11 @@ public interface UserService extends BaseService<User> {
 
     public Either<Exception, Boolean> changePassword(Long id, String newPassword);
 
-    public Boolean correlationRoles(Long userId, Set<Long> roleIds);
+    public Boolean correlationRoles(String userId, Set<String> roleIds);
 
-    public Either<Exception, Boolean> uncorrelationRoles(Long userId);
+    public Either<Exception, Boolean> uncorrelationRoles(String userId);
 
 
-    public Either<Exception, Set<Role>> findRoles(Long userId);
+    public Either<Exception, Set<Role>> findRoles(String userId);
 
 }

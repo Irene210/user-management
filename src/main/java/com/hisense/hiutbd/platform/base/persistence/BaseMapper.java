@@ -16,7 +16,7 @@ public interface BaseMapper<T> {
 
     public boolean deleteAll() ;
 
-    public boolean delete(List<Long> ids);
+    public boolean delete(List<String> ids);
 
     public boolean update(T entity) ;
 }

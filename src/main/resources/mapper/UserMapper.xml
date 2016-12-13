@@ -4,10 +4,9 @@
     <select id="findById" resultType="com.hisense.hiutbd.platform.base.domain.User">
    SELECT * FROM SYS_USERS WHERE ID=#{id}
   </select>
-    <insert id="create" parameterType="com.hisense.hiutbd.platform.base.domain.User"
-            keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
-       INSERT INTO SYS_USERS (NAME,SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,DISPLAYNUM )
-        VALUES ( #{id},#{sex}, #{telephone}, #{department.id},#{username},
+    <insert id="create" parameterType="com.hisense.hiutbd.platform.base.domain.User">
+       INSERT INTO SYS_USERS (ID,NAME,SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,DISPLAYNUM )
+        VALUES (#{id},#{name},#{sex}, #{telephone}, #{department.id},#{username},
         #{password},#{salt},#{locked},#{displayNum})
     </insert>
     <select id="findAll" resultMap="UserRelationWithDepartment">

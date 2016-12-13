@@ -43,17 +43,17 @@ public class UserServiceImpl extends AbstractBaseService<User> implements Loggab
 
     }
 
-    public Boolean correlationRoles(Long userId, Set<Long> roleIds) {
+    public Boolean correlationRoles(String userId, Set<String> roleIds) {
         return roleIds.map(roleId-> userMapper.correlationRoles(new UserRole(userId,roleId))).forAll(s->s);
 
     }
 
-    public Either<Exception, Boolean> uncorrelationRoles(Long userId) {
+    public Either<Exception, Boolean> uncorrelationRoles(String userId) {
         return doAction(()-> userMapper.uncorrelationRoles(userId));
 
     }
 
-    public Either<Exception, Set<Role>> findRoles(Long userId){
+    public Either<Exception, Set<Role>> findRoles(String userId){
         return doAction(() -> List.ofAll(userMapper.findRoles(userId)).toSet());
     }
 }

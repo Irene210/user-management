@@ -25,7 +25,7 @@ public class DepartmentServiceImpl extends AbstractBaseService<Department>
         return false;
     }
 
-    public boolean deleteDepartment(Long id) {
+    public boolean deleteDepartment(String id) {
         try {
             List<Department> childDepartment = departmentDao.findChildDepartment(id);
             if (childDepartment.size() > 0) {

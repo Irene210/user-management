@@ -10,6 +10,6 @@ import java.util.List;
  */
 @Repository
 public interface DepartmentMapper extends BaseMapper<Department> {
-    public boolean deleteDepartment(Long id);
-    public List<Department> findChildDepartment(Long id);
+    public boolean deleteDepartment(String id);
+    public List<Department> findChildDepartment(String id);
 }
