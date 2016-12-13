@@ -2,12 +2,15 @@ package com.hisense.development.service;
 
 import com.hisense.development.Loggable;
 import com.hisense.development.dao.UserDao;
+import com.hisense.development.entity.Role;
 import com.hisense.development.entity.User;
+import com.hisense.development.entity.UserRole;
 import javaslang.collection.List;
 import javaslang.control.Either;
-import javaslang.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javaslang.collection.Set;
 
 /**
  * Created by Administrator on 2016/12/9 0009.
@@ -29,23 +32,26 @@ public class UserServiceImpl extends AbstractBaseService<User> implements Loggab
         return Either.left(new Exception());
     }
 
-    @Override
-    public boolean changePassword(String username, String newPassword) {
-        try {
-            if (exists(username)) {
-                User user = find(username).get();
-                user.setPassword(newPassword);
-                passwordHelper.encryptPassword(user);
-                return userDao.update(user);
-            }
-        } catch (Exception e) {
-            logger().info("Changing password failure");
-        }
-        return false;
+    public Either<Exception, Boolean> changePassword(Long id, String newPassword) {
+        return find(id).map(s -> {
+            s.setPassword(newPassword);
+            passwordHelper.encryptPassword(s);
+            return update(s);
+        }).getOrElse(Either.left(new Exception()));
+
     }
 
+    public Boolean correlationRoles(Long userId, Set<Long> roleIds) {
+        return roleIds.map(roleId-> userDao.correlationRoles(new UserRole(userId,roleId))).forAll(s->s);
 
-    public Boolean exists(String username) {
-        return find(username).map(user -> !user.equals(new User())).getOrElse(false);
+    }
+
+    public Either<Exception, Boolean> uncorrelationRoles(Long userId) {
+        return doAction(()->userDao.uncorrelationRoles(userId));
+
+    }
+
+    public Either<Exception, Set<Role>> findRoles(Long userId){
+        return doAction(() -> List.ofAll(userDao.findRoles(userId)).toSet());
     }
 }

@@ -1,23 +1,22 @@
 package com.hisense.development.service;
 
+import com.hisense.development.entity.Role;
 import com.hisense.development.entity.User;
+import javaslang.collection.Set;
 import javaslang.control.Either;
-import javaslang.control.Option;
 
-import javaslang.collection.List;
 
 /**
  * Created by Administrator on 2016/12/7 0007.
  */
-public interface UserService extends BaseService<User>{
+public interface UserService extends BaseService<User> {
 
-    public boolean changePassword(String username, String newPassword);
-//
-//    public void correlationRoles(Long userId, Long... roleIds);
-//
-//    public void uncorrelationRoles(Long userId, Long... roleIds);
-//
-//
-//    public Set<String> findRoles(String username);
+    public Either<Exception, Boolean> changePassword(Long id, String newPassword);
+
+    public Boolean correlationRoles(Long userId, Set<Long> roleIds);
+
+    public Either<Exception, Boolean> uncorrelationRoles(Long userId);
+
+    public Either<Exception, Set<Role>> findRoles(Long userId);
 
 }

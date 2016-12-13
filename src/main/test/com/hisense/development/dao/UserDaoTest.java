@@ -1,6 +1,9 @@
 package com.hisense.development.dao;
 
+import com.hisense.development.entity.Department;
+import com.hisense.development.entity.Role;
 import com.hisense.development.entity.User;
+import com.hisense.development.entity.UserRole;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,17 +25,19 @@ import java.util.stream.Collectors;
 public class UserDaoTest extends TestCase {
     @Autowired
     UserDao userDao;
+    @Autowired
+    RoleDao roleDao;
+    @Autowired
+    DepartmentDao departmentDao;
+
     private  User irene;
 
     @Before
     public void beforeTest() {
         userDao.deleteAll();
+        roleDao.deleteAll();
          irene = new User("irene","123");
         userDao.create(irene);
-    }
-    @After
-    public void afterTest() {
-        userDao.deleteAll();
     }
 
     @Test
@@ -85,4 +91,35 @@ public class UserDaoTest extends TestCase {
         assertTrue(user.getDisplayNum()==1);
     }
 
+    @Test
+    public void testCorrelationRoles() {
+        Long id = new Long(3);
+        UserRole userRole = new UserRole(id, id);
+        assertTrue(userDao.correlationRoles(userRole));
+        assertTrue(userDao.uncorrelationRoles(id));
+    }
+
+    @Test
+    public void testFindRoles() {
+        roleDao.create(new Role("role",true));
+        roleDao.create(new Role("role1",true));
+        roleDao.create(new Role("role2",true));
+        User irene = userDao.find("irene");
+        assertTrue(userDao.correlationRoles(new UserRole(irene.getId(), roleDao.find("role").getId())));
+        assertTrue(userDao.correlationRoles(new UserRole(irene.getId(), roleDao.find("role1").getId())));
+        assertTrue(userDao.correlationRoles(new UserRole(irene.getId(), roleDao.find("role2").getId())));
+        Set<Role> roles = userDao.findRoles(irene.getId());
+        assertTrue(roles.size()==3);
+    }
+
+    @Test
+    public void testCreateUserWithDepartment() {
+        int size = userDao.findAll().size();
+        Department department = new Department();
+        departmentDao.create(department);
+        User demo = new User("demo", "123");
+        demo.setDepartment(departmentDao.findAll().get(0));
+        userDao.create(demo);
+        assertEquals(size+1,userDao.findAll().size());
+    }
 }

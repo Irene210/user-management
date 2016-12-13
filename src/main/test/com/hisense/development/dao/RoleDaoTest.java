@@ -27,13 +27,9 @@ public class RoleDaoTest extends TestCase {
 
     @Before
     public void beforeTest()  {
+        roleDao.deleteAll();
         role= new Role("role", true);
         roleDao.create(role);
-    }
-
-    @After
-    public void afterTest()  {
-        roleDao.deleteAll();
     }
 
     @Test
@@ -70,7 +66,6 @@ public class RoleDaoTest extends TestCase {
     @Test
     public void testUpdateUser()  {
         Role role = roleDao.find("role");
-        Date createDate = new Date();
         role.setAvailable(false);
         roleDao.update(role);
         Role actual = roleDao.find("role");

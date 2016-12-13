@@ -1,8 +1,7 @@
 package com.hisense.development.entity;
 
-import com.hisense.development.dao.BaseDao;
-
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/12/7 0007.
@@ -16,6 +15,16 @@ public class User extends BaseBo implements Serializable {
     private int displayNum;
     private String password;
     private String salt;
+
+    private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public String getName() {
         return username;

@@ -1,6 +1,8 @@
 package com.hisense.development.service;
 
+import com.hisense.development.entity.Role;
 import com.hisense.development.entity.User;
+import javaslang.collection.List;
 import javaslang.control.Either;
 import javaslang.control.Option;
 import junit.framework.TestCase;
@@ -12,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javaslang.collection.List;
+import javaslang.collection.Set;
 
 /**
  * Created by Administrator on 2016/12/7 0007.
@@ -24,6 +26,8 @@ public class UserServiceTest extends TestCase {
     UserService userService;
     @Autowired
     PasswordHelper passwordHelper;
+    @Autowired
+    RoleService roleService;
     private User irene;
 
     @Before
@@ -87,6 +91,29 @@ public class UserServiceTest extends TestCase {
     public void testFindNotExistedUser() {
         Option<User> userOption = userService.find("");
         assertTrue(userOption.equals(Option.none()));
+    }
+
+    @Test
+    public void testCorrelationRoles() {
+        roleService.create(new Role("role",true));
+        roleService.create(new Role("role1",true));
+        roleService.create(new Role("role2",true));
+        Set<Long> roleIds = roleService.findAll().toStream().map(s -> s.getId()).toSet();
+        Boolean correlationRoles = userService.correlationRoles(userService.find("irene").get().getId(), roleIds);
+        assertTrue(correlationRoles);
+        Boolean uncorrelationRoles = userService.uncorrelationRoles(userService.find("irene").get().getId()).get();
+        assertTrue(uncorrelationRoles);
+    }
+
+    @Test
+    public void testFindRoles() {
+        roleService.create(new Role("role",true));
+        roleService.create(new Role("role1",true));
+        roleService.create(new Role("role2",true));
+        Set<Long> roleIds = roleService.findAll().toStream().map(s -> s.getId()).toSet();
+        Long userId = userService.find("irene").get().getId();
+        Boolean correlationRoles = userService.correlationRoles(userId, roleIds);
+        assertTrue(userService.findRoles(userId).get().size()==3);
     }
 
 }

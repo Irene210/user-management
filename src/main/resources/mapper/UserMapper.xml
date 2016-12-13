@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hisense.development.dao.UserDao">
-
+    <select id="findById" resultType="com.hisense.development.entity.User">
+   SELECT * FROM SYS_USERS WHERE ID=#{id}
+  </select>
     <insert id="create" parameterType="com.hisense.development.entity.User"
             keyColumn="`id`" keyProperty="`id`" useGeneratedKeys="true">
        INSERT INTO SYS_USERS (NAME, SEX, TELEPHONE, DEPARTMENTID,USERNAME,PASSWORD,SALT,LOCKED,DISPLAYNUM )
@@ -17,7 +19,7 @@
     </select>
 
     <!--<select id="find" parameterType="Long" resultType="com.hisense.development.entity.User">-->
-        <!--SELECT * FROM SYS_USERS WHERE ID=#{id}-->
+    <!--SELECT * FROM SYS_USERS WHERE ID=#{id}-->
     <!--</select>-->
 
     <delete id="deleteAll">
@@ -40,4 +42,18 @@
         DISPLAYNUM=#{displayNum}
         where ID = #{id}
     </update>
+
+    <insert id="correlationRoles" parameterType="com.hisense.development.entity.UserRole">
+        insert into SYS_USERS_ROLES(USER_ID, ROLE_ID) values(#{userId},#{roleId})
+
+    </insert>
+
+    <delete id="uncorrelationRoles" >
+        DELETE FROM SYS_USERS_ROLES WHERE USER_ID =#{userId}
+    </delete>
+
+    <select id="findRoles" resultType="com.hisense.development.entity.Role">
+        select r.NAME,r.CREATEDATE,r.ID from SYS_USERS u, SYS_ROLES r,SYS_USERS_ROLES ur where u.ID=#{id}
+         and u.id=ur.USER_ID and r.id=ur.ROLE_ID
+    </select>
 </mapper>
